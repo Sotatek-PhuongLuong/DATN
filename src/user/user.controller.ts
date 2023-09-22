@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -7,6 +7,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { User } from 'entities/user.entity';
+import { GetListProductInput } from 'src/product/dto/product.dto';
 import { ErrorDto } from 'src/shared/dto/response/error.dto';
 import { ROLE } from './constants';
 import { Roles } from './decorators/role.decorator';
@@ -21,7 +22,7 @@ import { UserService } from './user.service';
 @Controller('user')
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post('signup')
   @ApiOperation({
@@ -53,5 +54,38 @@ export class UserController {
   // @Roles(ROLE.ADMIN)
   async testAdmin() {
     return 'oke';
+  }
+
+  @Get('list')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(ROLE.ADMIN)
+  async getListUser(
+    @Query() getListProductInput: GetListProductInput,
+  ) {
+    const { page, limit } = getListProductInput
+    let conditionPage = {}
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      conditionPage = {
+        take: limit,
+        skip: skip,
+      }
+    }
+    const listProduct = await User.find({
+      ...conditionPage,
+    });
+    return listProduct;
+  }
+
+  @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(ROLE.ADMIN)
+  async deleteUser(
+    @Param('id') id: number,
+  ) {
+    await User.delete(id)
+    return 'Success'
   }
 }

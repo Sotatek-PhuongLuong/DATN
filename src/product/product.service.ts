@@ -34,15 +34,21 @@ export class ProductService {
     let conditionOrderBy = {}
     if (orderBy == OrderByProduct.OUTSTANDING) {
       conditionOrderBy = {
-        order: {price: 'DESC'},
+        order: { price: 'DESC' },
       }
     }
-    const skip = (page - 1) * limit;
+    let conditionPage = { }
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      conditionPage = {
+        take: limit,
+        skip: skip,
+      }
+    }
     const listProduct = await this.repository.find({
       ...condition,
       ...conditionOrderBy,
-      take: limit,
-      skip: skip,
+      ...conditionPage,
       relations: ['listImage'],
     });
     return listProduct;
