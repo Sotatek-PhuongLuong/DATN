@@ -75,6 +75,11 @@ export class GetListProductInput {
   @Type(() => Number)
   limit: number;
 
+  @ApiProperty({ default: 10, required: false })
+  @IsString()
+  @IsOptional()
+  key: string;
+
   @ApiProperty({ default: 1, required: false })
   @IsEnum(TypeProduct)
   @IsOptional()

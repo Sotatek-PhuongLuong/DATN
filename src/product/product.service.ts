@@ -10,7 +10,7 @@ import { compare, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Product } from 'entities/product.entity';
 import { CreateProductInput, GetListProductInput } from './dto/product.dto';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Image } from 'entities/image.entity';
 import { OrderByProduct } from './product.constants';
@@ -22,13 +22,11 @@ export class ProductService {
   ) { }
 
   async getListProduct(getListProductInput: GetListProductInput) {
-    const { page, limit, type, orderBy } = getListProductInput;
+    const { page, limit, type, orderBy, key } = getListProductInput;
     let condition = {}
     if (type) {
       condition = {
-        where: {
-          type,
-        }
+        type
       }
     }
     let conditionOrderBy = {}
@@ -37,7 +35,7 @@ export class ProductService {
         order: { price: 'DESC' },
       }
     }
-    let conditionPage = { }
+    let conditionPage = {}
     if (page && limit) {
       const skip = (page - 1) * limit;
       conditionPage = {
@@ -45,8 +43,17 @@ export class ProductService {
         skip: skip,
       }
     }
+    if (key) {
+      condition = {
+        ...condition,
+        name: Like(`%key%`)
+      }
+    }
     const listProduct = await this.repository.find({
-      ...condition,
+      where: {
+        ...condition,
+      },
+
       ...conditionOrderBy,
       ...conditionPage,
       relations: ['listImage'],
