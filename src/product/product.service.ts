@@ -12,7 +12,7 @@ import { Product } from 'entities/product.entity';
 import { CreateProductInput, GetListProductInput } from './dto/product.dto';
 import { Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Image } from 'entities/image.entity';
+// import { Image } from 'entities/image.entity';
 import { OrderByProduct } from './product.constants';
 @Injectable()
 export class ProductService {
@@ -26,7 +26,7 @@ export class ProductService {
     let condition = {}
     if (type) {
       condition = {
-        type
+        category: type
       }
     }
     let conditionOrderBy = {}
@@ -49,29 +49,28 @@ export class ProductService {
         name: Like(`%key%`)
       }
     }
-    const listProduct = await this.repository.find({
+    const [ listProduct, total] = await this.repository.findAndCount({
       where: {
         ...condition,
       },
 
       ...conditionOrderBy,
-      ...conditionPage,
-      relations: ['listImage'],
+      ...conditionPage
     });
-    return listProduct;
+    return { total, listProduct };
   }
 
   async createProduct(dto: CreateProductInput) {
     const { images, ...createProduct } = dto;
-    const product = await this.repository.save(createProduct);
-    await Promise.all(
-      images.map((image) => {
-        const _image = new Image();
-        _image.image = image;
-        _image.productId = product.id;
-        return _image.save();
-      }),
-    );
+    const product = await this.repository.save({ ...createProduct, listImage: images });
+    // await Promise.all(
+    //   images.map((image) => {
+    //     const _image = new Image();
+    //     _image.image = image;
+    //     _image.productId = product.id;
+    //     return _image.save();
+    //   }),
+    // );
     return this.repository.save(createProduct);
   }
 

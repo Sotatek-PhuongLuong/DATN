@@ -13,11 +13,11 @@ import {
     UpdateDateColumn
 } from 'typeorm'
 import { Exclude, Expose } from 'class-transformer';
-import { Comment } from './comment.entity';
-import { Image } from './image.entity';
+// import { Comment } from './comment.entity';
+// import { Image } from './image.entity';
 import { Order } from './order.entity';
 import { Product } from './product.entity';
-@Entity('order-product')
+@Entity('order_product')
 export class OrderProduct extends BaseEntity {
     @PrimaryGeneratedColumn()
     @ApiProperty()

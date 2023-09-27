@@ -14,7 +14,7 @@ import {
 import { Exclude, Expose } from 'class-transformer';
 import { Product } from './product.entity';
 import { StatusCart } from 'src/cart/cart.constants';
-@Entity('cart')
+@Entity('carts')
 export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty()

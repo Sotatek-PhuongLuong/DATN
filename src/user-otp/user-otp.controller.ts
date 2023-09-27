@@ -15,7 +15,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserOtp } from 'entities/user-otp.entity';
+// import { UserOtp } from 'entities/user-otp.entity';
 import { ErrorDto } from 'src/shared/dto/response/error.dto';
 import { ResultDto } from 'src/shared/dto/response/result.dto';
 import { JwtAuthGuard } from 'src/user/guards/jwt-auth.guard';

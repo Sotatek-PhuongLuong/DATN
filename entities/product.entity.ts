@@ -10,9 +10,9 @@ import {
     UpdateDateColumn
 } from 'typeorm'
 import { Exclude, Expose } from 'class-transformer';
-import { Comment } from './comment.entity';
-import { Image } from './image.entity';
-@Entity('product')
+// import { Comment } from './comment.entity';
+// import { Image } from './image.entity';
+@Entity('products')
 export class Product extends BaseEntity {
     @PrimaryGeneratedColumn()
     @ApiProperty()
@@ -28,7 +28,15 @@ export class Product extends BaseEntity {
 
     @Column({default: 1})
     @ApiProperty()
-    type: number
+    category: number
+
+    @Column({default: 0})
+    @ApiProperty()
+    status: number
+
+    @Column({default: 1})
+    @ApiProperty()
+    amount: number
 
     @Column({ nullable: true })
     @ApiProperty()
@@ -38,17 +46,17 @@ export class Product extends BaseEntity {
     @ApiProperty()
     description: string
 
-    @Column('json')
+    @Column('json',{ name: 'list_image'})
     @ApiProperty()
-    size: number[]
+    listImage: string[]
 
     @Column({ length: 200, nullable: true })
     @ApiProperty()
     material: string
 
-    @Column({ nullable: true })
-    @ApiProperty()
-    guarantee: number
+    // @Column({ nullable: true })
+    // @ApiProperty()
+    // guarantee: number
 
     @CreateDateColumn({ name: 'created_at', nullable: true })
     @ApiProperty()
@@ -58,9 +66,6 @@ export class Product extends BaseEntity {
     @ApiProperty()
     updatedAt: Date
 
-    @OneToMany(() => Comment, comment => comment.product)
-    comments?: Comment[];
-
-    @OneToMany(() => Image, image => image.product)
-    listImage?: Image[];
+    // @OneToMany(() => Comment, comment => comment.product)
+    // comments?: Comment[];
 }

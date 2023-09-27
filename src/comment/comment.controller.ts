@@ -22,7 +22,7 @@ export class CommentController {
     @UserScope() user: User,
     @Body() createCommentInput: CreateCommentInput,
   ) {
-    await this.commentService.createComment(user, createCommentInput);
+    // await this.commentService.createComment(user, createCommentInput);
     return 'oke';
   }
 }

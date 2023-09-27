@@ -40,10 +40,10 @@ export class CreateProductInput {
   @MaxLength(200)
   description: string;
 
-  @ApiProperty({ default: [1, 2] })
-  @IsArray()
-  @IsOptional()
-  size: number[];
+  // @ApiProperty({ default: [1, 2] })
+  // @IsArray()
+  // @IsOptional()
+  // size: number[];
 
   @ApiProperty({ default: ['abc.jpg', 'png.png'] })
   @IsArray()

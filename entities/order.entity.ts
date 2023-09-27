@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 import { OrderProduct } from './order-product.entity'
 import { User } from './user.entity'
-@Entity('order')
+@Entity('orders')
 export class Order extends BaseEntity {
     @PrimaryGeneratedColumn()
     @ApiProperty()

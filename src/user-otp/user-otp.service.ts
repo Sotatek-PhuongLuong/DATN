@@ -6,12 +6,12 @@ import { OTP_TYPE, STATUS_OTP } from './constants';
 // import { OTP_TYPE, STATUS_OTP } from './constants'
 import { CreateUserOtpDto } from './dtos/create-user-otp.dto';
 import { VerifyOtpDto } from './dtos/verify-otp.dto';
-import { UserOtpRepository } from './user-otp.repository';
+// import { UserOtpRepository } from './user-otp.repository';
 
 @Injectable()
 export class UserOtpService {
   constructor(
-    private repository: UserOtpRepository,
+    // private repository: UserOtpRepository,
     private readonly mailService: MailService,
     private readonly userRepo: UserRepository,
   ) {}
@@ -39,13 +39,13 @@ export class UserOtpService {
     await this.mailService.sendMail(userOtpDto.email, 'OTP CODE FROM DATN', {
       code,
     });
-    await this.repository.save({
-      email: userOtpDto.email,
-      code,
-      type: userOtpDto.otpType ?? OTP_TYPE.SIGN_UP,
-      status: STATUS_OTP.WAIT_VERIFY,
-      expiredAt,
-    });
+    // await this.repository.save({
+    //   email: userOtpDto.email,
+    //   code,
+    //   type: userOtpDto.otpType ?? OTP_TYPE.SIGN_UP,
+    //   status: STATUS_OTP.WAIT_VERIFY,
+    //   expiredAt,
+    // });
     return {
       message: 'Sent otp code to email.',
     };
@@ -64,41 +64,41 @@ export class UserOtpService {
       }
     }
 
-    const userOtp = await this.repository.findOne({
-      where: {
-        email: dto.email,
-        type: dto.otpType,
-        status: STATUS_OTP.WAIT_VERIFY,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-    });
-    if (!userOtp || dto.otp !== userOtp.code) {
-      throw new BadRequestException('invalid_code');
-    } else if (new Date().getTime() / 1000 > userOtp.expiredAt) {
-      throw new BadRequestException('otp_expired');
-    }
-    await this.repository.save({ id: userOtp.id, status: STATUS_OTP.VERIFIED });
+    // const userOtp = await this.repository.findOne({
+    //   where: {
+    //     email: dto.email,
+    //     type: dto.otpType,
+    //     status: STATUS_OTP.WAIT_VERIFY,
+    //   },
+    //   order: {
+    //     createdAt: 'DESC',
+    //   },
+    // });
+    // if (!userOtp || dto.otp !== userOtp.code) {
+    //   throw new BadRequestException('invalid_code');
+    // } else if (new Date().getTime() / 1000 > userOtp.expiredAt) {
+    //   throw new BadRequestException('otp_expired');
+    // }
+    // await this.repository.save({ id: userOtp.id, status: STATUS_OTP.VERIFIED });
     return 'Success';
   }
 
-  async verifedOtpById(dto: VerifyOtpDto): Promise<string> {
-    const userOtp = await this.repository.findOne({
-      where: {
-        email: dto.email,
-        type: dto.otpType,
-        status: STATUS_OTP.VERIFIED,
-        code: dto.otp,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+  // async verifedOtpById(dto: VerifyOtpDto): Promise<string> {
+  //   const userOtp = await this.repository.findOne({
+  //     where: {
+  //       email: dto.email,
+  //       type: dto.otpType,
+  //       status: STATUS_OTP.VERIFIED,
+  //       code: dto.otp,
+  //     },
+  //     order: {
+  //       createdAt: 'DESC',
+  //     },
+  //   });
 
-    if (userOtp) {
-      return 'Success';
-    }
-    return 'Fail';
-  }
+  //   if (userOtp) {
+  //     return 'Success';
+  //   }
+  //   return 'Fail';
+  // }
 }

@@ -10,14 +10,14 @@ import {
   UpdateDateColumn
 } from 'typeorm'
 import { Exclude, Expose } from 'class-transformer';
-import { Comment } from './comment.entity';
+// import { Comment } from './comment.entity';
 @Entity('users')
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number
 
-  @Column({ default: '', length: 100 })
+  @Column({ default: '', length: 100, name: 'user_name' })
   @ApiProperty()
   userName: string
 
@@ -33,10 +33,18 @@ export class User extends BaseEntity {
   @ApiProperty()
   roles: string
 
+  @Column()
+  @ApiProperty()
+  address: string
+
   @Unique('email', ['email'])
   @Column({ length: 200 })
   @ApiProperty()
   email: string
+
+  @Column({ length: 200, name: 'phone_number' })
+  @ApiProperty()
+  phoneNumber: string
 
   @CreateDateColumn({ name: 'created_at', nullable: true })
   @ApiProperty()
@@ -46,6 +54,6 @@ export class User extends BaseEntity {
   @ApiProperty()
   updatedAt: Date
 
-  @OneToMany(() => Comment, comment => comment.user)
-  comments: Comment[];
+//   @OneToMany(() => Comment, comment => comment.user)
+//   comments: Comment[];
 }
