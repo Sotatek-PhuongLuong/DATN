@@ -71,18 +71,23 @@ export class ProductService {
     //     return _image.save();
     //   }),
     // );
-    return this.repository.save(createProduct);
+    return product;
   }
 
   async updateProduct(dto: CreateProductInput, id: number) {
-    return Product.update(
+    // delete(dto.type)
+    const _image = dto.images;
+    delete(dto.images)
+    await Product.update(
       {
         id,
       },
       {
         ...dto,
+        listImage: _image
       },
     );
+    return 'success'
   }
 
   async deleteProduct(id: number) {

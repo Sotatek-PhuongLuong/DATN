@@ -27,7 +27,7 @@ export class CreateProductInput {
   @ApiProperty({ default: 1 })
   @IsEnum(TypeProduct)
   @IsOptional()
-  type: TypeProduct;
+  category: TypeProduct;
 
   @ApiProperty({ default: 1 })
   @IsNumber()
@@ -56,10 +56,10 @@ export class CreateProductInput {
   @MaxLength(200)
   material: string;
 
-  @ApiProperty({ default: 1 })
-  @IsNumber()
-  @IsOptional()
-  guarantee: number;
+  // @ApiProperty({ default: 1 })
+  // @IsNumber()
+  // @IsOptional()
+  // guarantee: number;
 }
 
 export class GetListProductInput {
