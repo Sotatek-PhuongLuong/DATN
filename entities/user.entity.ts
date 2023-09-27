@@ -17,32 +17,32 @@ export class User extends BaseEntity {
   @ApiProperty()
   id: number
 
-  @Column({ default: '', length: 100, name: 'user_name' })
+  @Column({ default: '', length: 100, name: 'user_name' ,nullable: true})
   @ApiProperty()
   userName: string
 
-  @Column({ default: '', length: 100 })
+  @Column({ default: '', length: 100, nullable: true })
   @ApiProperty()
   avatar: string
 
-  @Column()
+  @Column({nullable: true})
   @Exclude()
   password: string
 
-  @Column()
+  @Column({nullable: true})
   @ApiProperty()
   roles: string
 
-  @Column()
+  @Column({nullable: true})
   @ApiProperty()
   address: string
 
   @Unique('email', ['email'])
-  @Column({ length: 200 })
+  @Column({ length: 200,nullable: true })
   @ApiProperty()
   email: string
 
-  @Column({ length: 200, name: 'phone_number' })
+  @Column({ length: 200, name: 'phone_number',nullable: true })
   @ApiProperty()
   phoneNumber: string
 
