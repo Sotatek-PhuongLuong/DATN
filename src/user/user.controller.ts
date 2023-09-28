@@ -72,10 +72,10 @@ export class UserController {
         skip: skip,
       }
     }
-    const [listProduct, total] = await User.findAndCount({
+    const [listUser, total] = await User.findAndCount({
       ...conditionPage,
     });
-    return { listProduct, total };
+    return { listUser, total };
   }
 
   @Delete(':id')
