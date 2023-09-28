@@ -9,21 +9,29 @@ import {
 } from './dto/cart.dto';
 import { User } from 'entities/user.entity';
 import { TypeUpdateProduct } from './cart.constants';
+import { Product } from 'entities/product.entity';
 @Injectable()
 export class CartService {
   constructor(
     @InjectRepository(Cart)
     private readonly repository: Repository<Cart>,
-  ) {}
+  ) { }
 
   async getCart(getCartInput: GetCartInput, user: User) {
     const { page, limit } = getCartInput;
 
-    const skip = (page - 1) * limit;
+    // const skip = (page - 1) * limit;
+    let conditionPage = {}
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      conditionPage = {
+        take: limit,
+        skip: skip,
+      }
+    }
     const result = await this.repository.find({
       where: { userId: user.id },
-      take: limit,
-      skip: skip,
+     ...conditionPage,
       relations: {
         product: {
           listImage: true,
@@ -54,6 +62,14 @@ export class CartService {
         amount: amount,
       });
     }
+    const product = await Product.findOne({ where: { id: productId } });
+    let status = 1
+    if (product.amount == -1) {
+      status = 0
+    }
+    await Product.update(productId, {
+      amount: product.amount - 1, status
+    })
     return 'Success';
   }
 

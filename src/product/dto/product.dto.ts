@@ -94,4 +94,9 @@ export class GetListProductInput {
   @IsEnum(OrderByProduct)
   @IsOptional()
   orderBy: OrderByProduct;
+
+  @ApiProperty({ default: 1, required: false })
+  @IsOptional()
+  @IsNumber()
+  status: number;
 }

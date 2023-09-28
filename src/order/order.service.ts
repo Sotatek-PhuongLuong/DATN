@@ -51,7 +51,14 @@ export class OrderService {
 
   async getOrder(user: User, getListProductInput: GetListProductInput) {
     const { page, limit } = getListProductInput;
-    const skip = (page - 1) * limit;
+    let conditionPage = {}
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      conditionPage = {
+        take: limit,
+        skip: skip,
+      }
+    }
     const listProduct = await this.repository.find({
       select: {
         listProduct: {
@@ -64,8 +71,7 @@ export class OrderService {
           }
         }
       },
-      take: limit,
-      skip: skip,
+     ...conditionPage,
       relations: {
         listProduct: {
           product: true

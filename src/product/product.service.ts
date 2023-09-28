@@ -22,11 +22,17 @@ export class ProductService {
   ) { }
 
   async getListProduct(getListProductInput: GetListProductInput) {
-    const { page, limit, type, orderBy, key } = getListProductInput;
+    const { page, limit, type, orderBy, key, status } = getListProductInput;
     let condition = {}
     if (type) {
       condition = {
         category: type
+      }
+    }
+    if (status) {
+      condition = {
+        ...condition,
+        status
       }
     }
     let conditionOrderBy = {}
