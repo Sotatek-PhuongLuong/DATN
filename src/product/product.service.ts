@@ -109,6 +109,7 @@ export class ProductService {
     // delete(dto.type)
     const { images } = dto;
     let condition = {}
+    console.log(images)
     if (images) {
       let _images = images.map((image) => {
         // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
