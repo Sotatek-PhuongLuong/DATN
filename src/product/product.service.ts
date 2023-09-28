@@ -78,20 +78,20 @@ export class ProductService {
     //   }
     // }
     if (images) {
-   let _images = images.map((image) => {
-      // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
-      const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
-      const filePath = join ('public', filename); // Đường dẫn đến thư mục public
-      // Ghi tệp vào đĩa
-      createWriteStream(filePath, { encoding: 'base64' })
-        .write(image, 'base64');
-        return 'static/'+filename
+      let _images = images.map((image) => {
+        // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
+        const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
+        const filePath = join('public', filename); // Đường dẫn đến thư mục public
+        // Ghi tệp vào đĩa
+        createWriteStream(filePath, { encoding: 'base64' })
+          .write(image, 'base64');
+        return 'static/' + filename
 
-    })
-    condition = {
-      listImage: _images
+      })
+      condition = {
+        listImage: _images
+      }
     }
-  }
     // return { message: 'Tệp đã được tải lên và lưu trữ thành công', filename };
     const product = await this.repository.save({ ...createProduct, listImage: [], ...condition });
     // await Promise.all(
@@ -107,11 +107,21 @@ export class ProductService {
 
   async updateProduct(dto: CreateProductInput, id: number) {
     // delete(dto.type)
+    const { images } = dto;
+    let condition = {}
+    if (images) {
+      let _images = images.map((image) => {
+        // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
+        const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
+        const filePath = join('public', filename); // Đường dẫn đến thư mục public
+        // Ghi tệp vào đĩa
+        createWriteStream(filePath, { encoding: 'base64' })
+          .write(image, 'base64');
+        return 'static/' + filename
 
-    let condition
-    if (dto.images) {
+      })
       condition = {
-        listImage: dto.images
+        listImage: _images
       }
     }
     await Product.update(
