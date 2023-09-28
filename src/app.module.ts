@@ -13,7 +13,9 @@ import { PassportModule } from '@nestjs/passport';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { StaticModule } from './static/static.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,6 +31,9 @@ import { OrderModule } from './order/order.module';
       timezone: 'Z',
       synchronize: false,
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join('..', 'public'),
+    }),
     UserModule,
     BullModule.forRoot({
       redis: {
@@ -40,6 +45,7 @@ import { OrderModule } from './order/order.module';
     UserOtpModule,
     CommentModule,
     ProductModule,
+    StaticModule,
     {
       ...JwtModule.register({
         secret: process.env.JWT_SECRET_KEY,

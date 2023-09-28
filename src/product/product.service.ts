@@ -14,6 +14,8 @@ import { Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 // import { Image } from 'entities/image.entity';
 import { OrderByProduct } from './product.constants';
+import { join } from 'path';
+import { createWriteStream } from 'fs';
 @Injectable()
 export class ProductService {
   constructor(
@@ -55,7 +57,7 @@ export class ProductService {
         name: Like(`%key%`)
       }
     }
-    const [ listProduct, total] = await this.repository.findAndCount({
+    const [listProduct, total] = await this.repository.findAndCount({
       where: {
         ...condition,
       },
@@ -68,7 +70,30 @@ export class ProductService {
 
   async createProduct(dto: CreateProductInput) {
     const { images, ...createProduct } = dto;
-    const product = await this.repository.save({ ...createProduct, listImage: images });
+    // console.log(images)
+    let condition = {}
+    // if (images) {
+    //   condition = {
+    //     listImage: images
+    //   }
+    // }
+    if (images) {
+   let _images = images.map((image) => {
+      // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
+      const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
+      const filePath = join ('public', filename); // Đường dẫn đến thư mục public
+      // Ghi tệp vào đĩa
+      createWriteStream(filePath, { encoding: 'base64' })
+        .write(image, 'base64');
+        return 'static/'+filename
+
+    })
+    condition = {
+      listImage: _images
+    }
+  }
+    // return { message: 'Tệp đã được tải lên và lưu trữ thành công', filename };
+    const product = await this.repository.save({ ...createProduct, listImage: [], ...condition });
     // await Promise.all(
     //   images.map((image) => {
     //     const _image = new Image();
@@ -82,15 +107,20 @@ export class ProductService {
 
   async updateProduct(dto: CreateProductInput, id: number) {
     // delete(dto.type)
-    const _image = dto.images;
-    delete(dto.images)
+
+    let condition
+    if (dto.images) {
+      condition = {
+        listImage: dto.images
+      }
+    }
     await Product.update(
       {
         id,
       },
       {
         ...dto,
-        listImage: _image
+        ...condition
       },
     );
     return 'success'
