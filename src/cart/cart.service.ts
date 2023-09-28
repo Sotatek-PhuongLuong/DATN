@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from 'entities/cart.entity';
@@ -50,6 +50,10 @@ export class CartService {
         userId: user.id,
       },
     });
+    const product = await Product.findOne({ where: { id: productId } });
+    if (product.amount == 0) {
+      throw new BadRequestException('product_is_empty')
+    }
     if (_cart) {
       await this.repository.update(
         { id: _cart.id },
@@ -62,7 +66,6 @@ export class CartService {
         amount: amount,
       });
     }
-    const product = await Product.findOne({ where: { id: productId } });
     let status = 1
     if (product.amount == -1) {
       status = 0
