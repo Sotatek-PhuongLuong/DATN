@@ -56,6 +56,11 @@ export class CreateProductInput {
   @MaxLength(200)
   material: string;
 
+  @ApiProperty({ default: 10})
+  @IsNumber()
+  @IsOptional()
+  amount: number;
+
   // @ApiProperty({ default: 1 })
   // @IsNumber()
   // @IsOptional()
