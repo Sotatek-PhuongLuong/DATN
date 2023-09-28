@@ -22,7 +22,7 @@ export class SignupDto {
     type: 'email',
     default: 'phuong.luong@sotatek.com',
   })
-  username: string;
+  userName: string;
 
   @IsString()
   @IsNotEmpty()
@@ -31,6 +31,30 @@ export class SignupDto {
     default: '123456',
   })
   password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    default: '123456',
+  })
+  phoneNumber: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    default: '123456',
+  })
+  address: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: 'string',
+    default: '123456',
+  })
+  avatar: string;
 
   // @ApiProperty({ default: false })
   // @IsBoolean()

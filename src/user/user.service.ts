@@ -21,7 +21,7 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
   async signup(signupDto: SignupDto): Promise<User> {
-    const { email, password, username } = signupDto;
+    const { email, password, userName, address, avatar, phoneNumber } = signupDto;
     const user = await this.findByEmail(signupDto.email);
     if (user) {
       throw new BadRequestException('email_already_exist');
@@ -37,7 +37,10 @@ export class UserService {
         email: email,
         roles: 'USER',
         password: await hash(password, 10),
-        username,
+        userName,
+        address,
+        phoneNumber,
+        avatar
       });
     }
     return user;
