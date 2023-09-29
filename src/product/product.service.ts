@@ -27,7 +27,7 @@ export class ProductService {
   async getListProduct(getListProductInput: GetListProductInput) {
     const { page, limit, type, orderBy, key, status } = getListProductInput;
     let condition = {}
-    if (type) {
+    if (type || type == 0) {
       condition = {
         category: type
       }
