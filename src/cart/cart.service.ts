@@ -31,11 +31,9 @@ export class CartService {
     }
     const result = await this.repository.find({
       where: { userId: user.id },
-     ...conditionPage,
+      ...conditionPage,
       relations: {
-        product: {
-          listImage: true,
-        },
+        product: true
       },
     });
 
