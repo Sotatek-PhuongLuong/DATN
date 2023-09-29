@@ -12,9 +12,9 @@ export class StaticController {
         const publicPath = join('public');
         console.log(publicPath)
         console.log(filename)
-        const publicPath1 = join(__dirname, '..', 'public');
-        console.log(publicPath1)
+        // const publicPath1 = join(__dirname, '..', 'public');
+        // console.log(publicPath1)
         // Trả về tệp tĩnh sử dụng Express.js response.sendFile()
-        res.sendFile(filename, { root: '/home/sotatek/Desktop/DATN/public' });
+        res.sendFile(filename, { root: publicPath });
     }
 }
