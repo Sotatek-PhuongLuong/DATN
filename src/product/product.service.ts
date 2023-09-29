@@ -79,9 +79,10 @@ export class ProductService {
     //   }
     // }
     if (images) {
+      let imageArray = JSON.parse(images)
       console.log(Array.isArray(images))
       console.log(images)
-      let _images = images.map((image) => {
+      let _images = imageArray.map((image) => {
         // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
         const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
         const filePath = join('public', filename); // Đường dẫn đến thư mục public
@@ -114,7 +115,10 @@ export class ProductService {
     let condition = {}
     console.log(images)
     if (images) {
-      let _images = images.map((image) => {
+      let imageArray = JSON.parse(images)
+      console.log(Array.isArray(images))
+      console.log(images)
+      let _images = imageArray.map((image) => {
         // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
         const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
         const filePath = join('public', filename); // Đường dẫn đến thư mục public
@@ -144,7 +148,7 @@ export class ProductService {
     return await Product.delete(id);
   }
 
-  async getProductDetail (id: number) {
+  async getProductDetail(id: number) {
     const product = await Product.findOne({
       where: {
         id

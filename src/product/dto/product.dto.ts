@@ -46,9 +46,9 @@ export class CreateProductInput {
   // size: number[];
 
   @ApiProperty({ default: ['abc.jpg', 'png.png'] })
-  @IsArray()
+  @IsString()
   @IsOptional()
-  images: string[];
+  images: string;
 
   @ApiProperty({ default: 'phuong.luong@sotatek.com' })
   @IsString()
