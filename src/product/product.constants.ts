@@ -1,12 +1,12 @@
 export enum TypeProduct {
-    COMBO = 0,
-    LIVING_ROOM = 1,
-    BEDROOM = 2,
-    KITCHEN_CABINETS = 3,
-    OFFICE = 4,
-    DECORATIONS = 5,
-    TABLE = 6,
-    CHAIR = 7
+    COMBO = 1,
+    LIVING_ROOM = 2,
+    BEDROOM = 3,
+    KITCHEN_CABINETS = 4,
+    OFFICE = 5,
+    DECORATIONS = 6,
+    TABLE = 7,
+    CHAIR = 8
 }
 
 export enum OrderByProduct {
