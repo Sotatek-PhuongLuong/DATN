@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { User } from 'entities/user.entity';
@@ -78,6 +79,8 @@ export class ProductService {
     //   }
     // }
     if (images) {
+      console.log(Array.isArray(images))
+      console.log(images)
       let _images = images.map((image) => {
         // const base64Data = image.replace(/^data:image\/png;base64,/, ''); // Loại bỏ tiền tố
         const filename = `image_${Date.now()}.png`; // Đặt tên cho tệp
@@ -139,5 +142,17 @@ export class ProductService {
 
   async deleteProduct(id: number) {
     return await Product.delete(id);
+  }
+
+  async getProductDetail (id: number) {
+    const product = await Product.findOne({
+      where: {
+        id
+      }
+    })
+    if (!product) {
+      throw new NotFoundException('product_not_found')
+    }
+    return product
   }
 }

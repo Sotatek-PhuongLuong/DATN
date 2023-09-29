@@ -22,7 +22,7 @@ import { ProductService } from './product.service';
 @Controller('product')
 @Controller()
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Get()
   // @UseGuards(JwtAuthGuard)
@@ -32,6 +32,16 @@ export class ProductController {
     @Query() getListProductInput: GetListProductInput,
   ) {
     return this.productService.getListProduct(getListProductInput);
+  }
+
+  @Get(':id')
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  async getProductDetail(
+    @UserScope() user: User,
+    @Param('id') id: number
+  ) {
+    return this.productService.getProductDetail(id);
   }
 
   @Post()
