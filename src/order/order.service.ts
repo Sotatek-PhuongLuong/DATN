@@ -46,7 +46,7 @@ export class OrderService {
       status: StatusCart.BOUGHT
     })
 
-    return 'Success'
+    return 'success'
   }
 
   async getOrder(user: User, getListProductInput: GetListProductInput) {
