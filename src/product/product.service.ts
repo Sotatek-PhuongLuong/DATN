@@ -145,7 +145,8 @@ export class ProductService {
   }
 
   async deleteProduct(id: number) {
-    return await Product.delete(id);
+     await Product.delete(id);
+     return 'success'
   }
 
   async getProductDetail(id: number) {
