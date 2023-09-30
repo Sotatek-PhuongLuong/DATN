@@ -71,7 +71,7 @@ export class CartService {
     await Product.update(productId, {
       amount: product.amount - 1, status
     })
-    return 'success';
+    return JSON.stringify('success');
   }
 
   async updateProductInCart(
@@ -88,13 +88,13 @@ export class CartService {
     if (_cart.userId != user.id) throw new ForbiddenException('not_permission');
     if (type == TypeUpdateProduct.MINUS && _cart.amount == 1) {
       await this.repository.delete({ id: cartId });
-      return 'success';
+      return JSON.stringify('success');
     }
 
     const amount =
       type == TypeUpdateProduct.MINUS ? _cart.amount - 1 : _cart.amount + 1;
     await this.repository.update({ id: cartId }, { amount });
-    return 'success';
+    return JSON.stringify('success');
   }
 
   async deleteProductInCart(user: User, cartId: number) {
@@ -105,6 +105,6 @@ export class CartService {
     });
     if (_cart.userId != user.id) throw new ForbiddenException('not_permission');
     await this.repository.delete({ id: cartId });
-    return 'success';
+    return JSON.stringify('success');
   }
 }

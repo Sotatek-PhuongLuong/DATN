@@ -46,7 +46,7 @@ export class OrderService {
       status: StatusCart.BOUGHT
     })
 
-    return 'success'
+    return JSON.stringify('success')
   }
 
   async getOrder(user: User, getListProductInput: GetListProductInput) {

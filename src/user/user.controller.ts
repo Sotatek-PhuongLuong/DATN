@@ -97,6 +97,6 @@ export class UserController {
     @Param('id') id: number,
   ) {
     await User.delete(id)
-    return 'success'
+    return JSON.stringify('success')
   }
 }

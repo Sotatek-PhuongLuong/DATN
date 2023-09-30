@@ -145,12 +145,12 @@ export class ProductService {
         ...condition
       },
     );
-    return 'success'
+    return JSON.stringify('success')
   }
 
   async deleteProduct(id: number) {
      await Product.delete(id);
-     return 'success'
+     return JSON.stringify('success')
   }
 
   async getProductDetail(id: number) {

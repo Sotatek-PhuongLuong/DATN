@@ -80,7 +80,7 @@ export class UserOtpService {
     //   throw new BadRequestException('otp_expired');
     // }
     // await this.repository.save({ id: userOtp.id, status: STATUS_OTP.VERIFIED });
-    return 'success';
+    return JSON.stringify('success');
   }
 
   // async verifedOtpById(dto: VerifyOtpDto): Promise<string> {
