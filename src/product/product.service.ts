@@ -32,12 +32,14 @@ export class ProductService {
         category: type
       }
     }
+    console.log(condition)
     if (status) {
       condition = {
         ...condition,
         status
       }
     }
+    console.log(condition)
     let conditionOrderBy = {}
     if (orderBy == OrderByProduct.OUTSTANDING) {
       conditionOrderBy = {
@@ -54,13 +56,15 @@ export class ProductService {
     }
     if (key) {
       condition = {
-        ...condition,
-        name: Like(`%key%`)
+        // ...condition,
+        name: Like(`%${key}%`)
       }
     }
+    console.log(condition)
     const [listProduct, total] = await this.repository.findAndCount({
       where: {
         ...condition,
+        // name: Like(`%${key}%`)
       },
 
       ...conditionOrderBy,
