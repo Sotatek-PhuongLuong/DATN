@@ -13,8 +13,8 @@ import { OrderService } from './order.service';
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
-  
+  constructor(private readonly orderService: OrderService) { }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -24,14 +24,38 @@ export class OrderController {
     return this.orderService.paymentOrders(user);
   }
 
-    
+
   @Get()
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
   async getOrder(
-    @UserScope() user: User, 
+    @UserScope() user: User,
     @Query() getListProductInput: GetListProductInput
   ) {
-    return this.orderService.getOrder(user,getListProductInput);
+    return this.orderService.getOrder(user, getListProductInput);
   }
+
+  @Get('statistical')
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // // @Roles(ROLE.ADMIN)
+  async getStatisticalUser(
+    // @Query() getListProductInput: GetListProductInput,
+  ) {
+    console.log('1')
+    return this.orderService.getStatisticaCart()
+  }
+
+  @Get('statistical-revenue')
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // // @Roles(ROLE.ADMIN)
+  async getStatisticalUserRevenue(
+    // @Query() getListProductInput: GetListProductInput,
+  ) {
+    console.log('1')
+    return this.orderService.getStatisticalUserRevenue()
+  }
+
+
 }

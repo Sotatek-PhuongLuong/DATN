@@ -12,6 +12,8 @@ import { compare, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as moment from 'moment';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -19,7 +21,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private userOtpService: UserOtpService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
   async signup(signupDto: SignupDto): Promise<User> {
     const { email, password, userName, address, avatar, phoneNumber } = signupDto;
     const user = await this.findByEmail(signupDto.email);
@@ -98,5 +100,67 @@ export class UserService {
   async getUserProfile(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
     return user;
+  }
+
+  async getStatisticalUser() {
+    const currentDate = moment();
+    const currentYear = currentDate.year();
+    // const hiringCompany = await UserCompanyEntity.findOne({
+    //   where: { userId: user.id }
+    // })
+    let condition = ''
+    // if (!hiringCompany && user.role == Role.HIRING_COMPANY) {
+    //   throw new NotFoundException('company_not_found')
+    // }
+    // if (user.role == Role.HIRING_COMPANY) {
+    //   condition = ` and jobs.company_id = ${hiringCompany.id}`
+    // }
+    let querySelect = '';
+    let queryWhere = '';
+    let queryGroupBy = '';
+    let daysDifference;
+    // if (type == TypeStatistical.MONTH) {
+    //   const currentMonth = currentDate.month() + 1;
+    //   const startOfYear = moment().startOf('year');
+    //   const startOfMonth = moment().startOf('month');
+    //   daysDifference = startOfMonth.diff(startOfYear, 'week');
+    //   querySelect = ',  WEEK(ap.created_at) AS week';
+    //   queryWhere = ` and MONTH(ap.created_at) = ${currentMonth}`;
+    //   queryGroupBy = `, WEEK(ap.created_at)`;
+    // }
+    const result = await this.userRepository
+      .createQueryBuilder('ap')
+      .select(
+        `MONTH(ap.created_at) AS month ${querySelect}, COUNT(*) AS amount`,
+      )
+      // .leftJoin(`ap.job`, `jobs`, `jobs.id = ap.job_id`)
+      .where(
+        `YEAR(ap.created_at) = :year ${queryWhere} ${condition}`,
+        { year: currentYear },
+      )
+      .groupBy(`MONTH(ap.created_at) ${queryGroupBy}`)
+      .getRawMany();
+
+    // if (type == TypeStatistical.MONTH) {
+    //   return result.map((item) => {
+    //     return { ...item, week: item.week - daysDifference };
+    //   });
+    // }
+    if (result) {
+      let length = result.length
+      if (result.length < 6) {
+        for (let i = 1; i <= 6 - length; i++) {
+          result.push({
+            "month": result[length - 1].month - i,
+            "amount": 0
+          })
+        }
+      } else {
+        return result.slice(-6)
+      }
+      return result;
+    } else {
+      return []
+    }
   }
 }

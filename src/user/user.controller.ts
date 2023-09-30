@@ -78,6 +78,17 @@ export class UserController {
     return { listUser, total };
   }
 
+  @Get('statistical')
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // // @Roles(ROLE.ADMIN)
+  async getStatisticalUser(
+    // @Query() getListProductInput: GetListProductInput,
+  ) {
+    console.log('1')
+    return this.userService.getStatisticalUser()
+  }
+
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
