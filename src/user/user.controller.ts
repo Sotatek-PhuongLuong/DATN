@@ -56,6 +56,18 @@ export class UserController {
     return 'oke';
   }
 
+  @Get('id')
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(ROLE.ADMIN)
+  async getUser(
+    @Param('id') id: number,
+  ) {
+    return User.findOne({where: {
+      id
+    }})
+  }
+
   @Get('list')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)

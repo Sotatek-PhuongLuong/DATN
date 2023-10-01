@@ -56,7 +56,7 @@ export class ProductService {
     }
     if (key) {
       condition = {
-        // ...condition,
+        ...condition,
         name: Like(`%${key}%`)
       }
     }
