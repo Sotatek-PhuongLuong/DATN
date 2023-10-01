@@ -56,7 +56,7 @@ export class UserController {
     return 'oke';
   }
 
-  @Get('id')
+  @Get(':id')
   // @ApiBearerAuth()
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles(ROLE.ADMIN)
