@@ -94,6 +94,23 @@ export class CartService {
     const amount =
       type == TypeUpdateProduct.MINUS ? _cart.amount - 1 : _cart.amount + 1;
     await this.repository.update({ id: cartId }, { amount });
+
+    const product = await Product.findOne({ where: { id: _cart.productId } })
+    if (product) {
+      if (type == TypeUpdateProduct.MINUS) {
+        await Product.update({
+          id: _cart.id
+        }, {
+          amount: Number(product.amount) + 1
+        })
+      } else {
+        await Product.update({
+          id: _cart.id
+        }, {
+          amount: Number(product.amount) - 1
+        })
+      }
+    }
     return JSON.stringify('success');
   }
 
@@ -103,6 +120,14 @@ export class CartService {
         id: cartId,
       },
     });
+    const product = await Product.findOne({ where: { id: _cart.productId } })
+    if (product) {
+      await Product.update({
+        id: _cart.id
+      }, {
+        amount: Number(product.amount) + Number(_cart.amount)
+      })
+    }
     if (_cart.userId != user.id) throw new ForbiddenException('not_permission');
     await this.repository.delete({ id: cartId });
     return JSON.stringify('success');
