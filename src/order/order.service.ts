@@ -71,6 +71,7 @@ export class OrderService {
           }
         }
       },
+      where: {userId: user.id},
       ...conditionPage,
       relations: {
         listProduct: {
@@ -79,7 +80,7 @@ export class OrderService {
         user: true
       }
     });
-    return listProduct;
+    return listProduct.filter((item) => item.listProduct);
   }
 
   async getStatisticaCart() {
