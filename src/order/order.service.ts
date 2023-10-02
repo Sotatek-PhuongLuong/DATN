@@ -48,7 +48,7 @@ export class OrderService {
   }
 
   async getOrder(user: User, getListProductInput: GetListProductInput) {
-    console.log(user)
+    // console.log(user)
     const { page, limit } = getListProductInput;
     let conditionPage = {}
     if (page && limit) {
@@ -70,7 +70,7 @@ export class OrderService {
           }
         }
       },
-      where: {userId: user.id},
+      // where: {userId: user.id},
       ...conditionPage,
       relations: {
         listProduct: {
@@ -79,7 +79,8 @@ export class OrderService {
         user: true
       }
     });
-    return listProduct.filter((item) => item.listProduct);
+    // const _listP
+    return listProduct
   }
 
   async getStatisticaCart() {

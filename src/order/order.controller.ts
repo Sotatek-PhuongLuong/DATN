@@ -48,8 +48,8 @@ export class OrderController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   async getOrder(
     @UserScope() user: User,
     @Query() getListProductInput: GetListProductInput
