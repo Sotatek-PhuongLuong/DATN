@@ -42,7 +42,7 @@ export class OrderService {
       return orderProduct.save()
     }))
 
-    await Cart.delete({ userId: user.id})
+    await Cart.delete({ userId: user.id })
 
     return JSON.stringify('success')
   }
@@ -79,8 +79,18 @@ export class OrderService {
         user: true
       }
     });
-    // const _listP
-    return listProduct
+    let totalProduct = 0;
+    let orderName = '';
+    const _listProduct = listProduct.map((item) => {
+      const listProduct = item.listProduct;
+      let _listProduct = listProduct.map(item => {
+        if (item.amount) totalProduct += item.amount;
+        if (item.product.name) orderName = orderName + item.product.name + ','
+        return { ...item, name: item.product.name }
+      })
+      return { ...item, listProduct: _listProduct, totalProduct, orderName }
+    })
+    return _listProduct
   }
 
   async getStatisticaCart() {
