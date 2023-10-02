@@ -79,9 +79,10 @@ export class OrderService {
         user: true
       }
     });
-    let totalProduct = 0;
-    let orderName = '';
+   
     const _listProduct = listProduct.map((item) => {
+      let totalProduct = 0;
+      let orderName = '';
       const listProduct = item.listProduct;
       let _listProduct = listProduct.map(item => {
         if (item.amount) totalProduct += item.amount;
