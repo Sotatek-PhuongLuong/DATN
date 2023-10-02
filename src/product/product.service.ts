@@ -25,7 +25,7 @@ export class ProductService {
     private readonly repository: Repository<Product>,
   ) { }
 
-  async getListProduct(getListProductInput: GetListProductInput,user:User) {
+  async getListProduct(getListProductInput: GetListProductInput) {
     const { page, limit, type, orderBy, key, status } = getListProductInput;
     let condition = {}
     if (type) {
@@ -40,12 +40,12 @@ export class ProductService {
         status
       }
     }
-    if (user.roles == ROLE.USER) {
-      condition = {
-        ...condition,
-        status: 0
-      }
-    }
+    // if (user.roles == ROLE.USER) {
+    //   condition = {
+    //     ...condition,
+    //     status: 0
+    //   }
+    // }
     console.log(condition)
     let conditionOrderBy = {}
     if (orderBy == OrderByProduct.OUTSTANDING) {

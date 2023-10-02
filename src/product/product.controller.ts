@@ -25,13 +25,13 @@ export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   async getListProduct(
     @UserScope() user: User,
     @Query() getListProductInput: GetListProductInput,
   ) {
-    return this.productService.getListProduct(getListProductInput, user);
+    return this.productService.getListProduct(getListProductInput);
   }
 
   @Get(':id')
