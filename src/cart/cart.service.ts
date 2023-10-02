@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from 'entities/cart.entity';
@@ -98,6 +98,7 @@ console.log(user)
         id: cartId,
       },
     });
+    if (!_cart) throw new NotFoundException('not_found')
     if (_cart.userId != user.id) throw new ForbiddenException('not_permission');
     if (type == TypeUpdateProduct.MINUS && _cart.amount == 1) {
       await this.repository.delete({ id: cartId });
