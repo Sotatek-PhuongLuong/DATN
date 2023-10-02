@@ -70,7 +70,10 @@ export class ProductService {
       ...conditionOrderBy,
       ...conditionPage
     });
-    return { total, listProduct };
+    const totalProduct = listProduct.reduce((total, product) => {
+      return total + product.amount
+    }, 0)
+    return { total, listProduct, totalProduct };
   }
 
   async createProduct(dto: CreateProductInput) {
@@ -116,8 +119,9 @@ export class ProductService {
   async updateProduct(dto: CreateProductInput, id: number) {
     // delete(dto.type)
     const { images } = dto;
+    delete(dto.images)
     let condition = {}
-    console.log(images)
+    // console.log(images)
     if (images) {
       let imageArray = JSON.parse(images)
       console.log(Array.isArray(images))
@@ -144,13 +148,15 @@ export class ProductService {
         ...dto,
         ...condition
       },
-    );
+    );console.log('aaaaaaaaaaaaaa')
+
     return JSON.stringify('success')
+    // return 'success'
   }
 
   async deleteProduct(id: number) {
-     await Product.delete(id);
-     return JSON.stringify('success')
+    await Product.delete(id);
+    return JSON.stringify('success')
   }
 
   async getProductDetail(id: number) {
