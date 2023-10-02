@@ -42,6 +42,7 @@ console.log(user)
         if (cart.product && cart.product.price && cart.product.discount) {
           return total += (cart.amount * (cart.product.price * (1 - (cart.product.discount / 100))))
         }
+        return total;
       }, 0)
     }
     return { result, totalMoney };
