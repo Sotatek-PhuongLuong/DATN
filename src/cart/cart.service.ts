@@ -36,8 +36,15 @@ export class CartService {
         product: true
       },
     });
-
-    return result;
+    let totalMoney = 0
+    if (result.length > 0) {
+      totalMoney = result.reduce((total, cart) => {
+        if (cart.product && cart.product.price && cart.product.discount) {
+          return total += (cart.amount * (cart.product.price * (1 - (cart.product.discount / 100))))
+        }
+      }, 0)
+    }
+    return { result, totalMoney };
   }
 
   async addProductInCart(addProductInput: AddProductInput, user: User) {
