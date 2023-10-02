@@ -85,7 +85,7 @@ export class OrderService {
       const listProduct = item.listProduct;
       let _listProduct = listProduct.map(item => {
         if (item.amount) totalProduct += item.amount;
-        if (item.product.name) orderName = orderName + item.product.name + ', '
+        if (item.product && item.product.name) orderName = orderName + item.product.name + ', '
         return ''
       })
       return { ...item, listProduct, totalProduct, orderName }
