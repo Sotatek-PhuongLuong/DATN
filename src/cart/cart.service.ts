@@ -72,7 +72,7 @@ console.log(user)
       });
     }
     let status = 1
-    if (product.amount == -1) {
+    if (product.amount == 0) {
       status = 0
     }
     await Product.update(productId, {

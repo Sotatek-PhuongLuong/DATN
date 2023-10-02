@@ -30,7 +30,7 @@ export class Product extends BaseEntity {
     @ApiProperty()
     category: number
 
-    @Column({default: 0})
+    @Column({default: 1})
     @ApiProperty()
     status: number
 

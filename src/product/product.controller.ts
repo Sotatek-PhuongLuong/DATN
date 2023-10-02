@@ -31,7 +31,7 @@ export class ProductController {
     @UserScope() user: User,
     @Query() getListProductInput: GetListProductInput,
   ) {
-    return this.productService.getListProduct(getListProductInput);
+    return this.productService.getListProduct(getListProductInput, user);
   }
 
   @Get(':id')

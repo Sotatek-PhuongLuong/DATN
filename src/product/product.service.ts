@@ -17,6 +17,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OrderByProduct } from './product.constants';
 import { join } from 'path';
 import { createWriteStream } from 'fs';
+import { ROLE } from 'src/user/constants';
 @Injectable()
 export class ProductService {
   constructor(
@@ -24,7 +25,7 @@ export class ProductService {
     private readonly repository: Repository<Product>,
   ) { }
 
-  async getListProduct(getListProductInput: GetListProductInput) {
+  async getListProduct(getListProductInput: GetListProductInput,user:User) {
     const { page, limit, type, orderBy, key, status } = getListProductInput;
     let condition = {}
     if (type) {
@@ -37,6 +38,12 @@ export class ProductService {
       condition = {
         ...condition,
         status
+      }
+    }
+    if (user.roles == ROLE.USER) {
+      condition = {
+        ...condition,
+        status: 0
       }
     }
     console.log(condition)
@@ -104,7 +111,7 @@ export class ProductService {
       }
     }
     // return { message: 'Tệp đã được tải lên và lưu trữ thành công', filename };
-    const product = await this.repository.save({ ...createProduct, listImage: [], ...condition });
+    const product = await this.repository.save({ ...createProduct, listImage: [], ...condition, status: 1 });
     // await Promise.all(
     //   images.map((image) => {
     //     const _image = new Image();
