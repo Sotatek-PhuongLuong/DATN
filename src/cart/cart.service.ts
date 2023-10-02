@@ -36,16 +36,21 @@ console.log(user)
         product: true
       },
     });
-    let totalMoney = 0
+    let totalMoney = 0;
+    let totalProduct = 0;
     if (result.length > 0) {
       totalMoney = result.reduce((total, cart) => {
         if (cart.product && cart.product.price && cart.product.discount) {
+          if (cart.product) {
+            totalProduct += cart.amount
+          }
           return total += (cart.amount * (cart.product.price * (1 - (cart.product.discount / 100))))
         }
         return total;
       }, 0)
     }
-    return { result, totalMoney };
+
+    return { result, totalMoney, totalProduct };
   }
 
   async addProductInCart(addProductInput: AddProductInput, user: User) {
