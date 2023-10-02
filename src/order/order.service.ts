@@ -42,9 +42,7 @@ export class OrderService {
       return orderProduct.save()
     }))
 
-    await Cart.update({ userId: user.id, status: StatusCart.IN_CART }, {
-      status: StatusCart.BOUGHT
-    })
+    await Cart.delete({ userId: user.id})
 
     return JSON.stringify('success')
   }
