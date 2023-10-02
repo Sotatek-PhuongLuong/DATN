@@ -50,6 +50,7 @@ export class OrderService {
   }
 
   async getOrder(user: User, getListProductInput: GetListProductInput) {
+    console.log(user)
     const { page, limit } = getListProductInput;
     let conditionPage = {}
     if (page && limit) {

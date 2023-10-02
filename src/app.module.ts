@@ -46,6 +46,8 @@ import { StaticModule } from './static/static.module';
     CommentModule,
     ProductModule,
     StaticModule,
+    CartModule,
+    OrderModule,
     {
       ...JwtModule.register({
         secret: process.env.JWT_SECRET_KEY,
@@ -53,8 +55,6 @@ import { StaticModule } from './static/static.module';
       global: true,
     },
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    CartModule,
-    OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],

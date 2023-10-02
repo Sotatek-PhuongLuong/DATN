@@ -25,16 +25,6 @@ export class OrderController {
   }
 
 
-  @Get()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
-  async getOrder(
-    @UserScope() user: User,
-    @Query() getListProductInput: GetListProductInput
-  ) {
-    return this.orderService.getOrder(user, getListProductInput);
-  }
-
   @Get('statistical')
   // @ApiBearerAuth()
   // @UseGuards(JwtAuthGuard, RolesGuard)
@@ -55,6 +45,17 @@ export class OrderController {
   ) {
     console.log('1')
     return this.orderService.getStatisticalUserRevenue()
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  async getOrder(
+    @UserScope() user: User,
+    @Query() getListProductInput: GetListProductInput
+  ) {
+    console.log('mmmmmmmmmmm')
+    return this.orderService.getOrder(user, getListProductInput);
   }
 
 

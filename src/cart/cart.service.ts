@@ -19,7 +19,7 @@ export class CartService {
 
   async getCart(getCartInput: GetCartInput, user: User) {
     const { page, limit } = getCartInput;
-
+console.log(user)
     // const skip = (page - 1) * limit;
     let conditionPage = {}
     if (page && limit) {
